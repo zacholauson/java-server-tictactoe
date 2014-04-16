@@ -7,18 +7,22 @@
             [ttt-clojure.gamestate :refer [game-over? move] :as gamestate]
             [ttt-clj-java-server.board-view-helpers :refer [build-board-layout]]))
 
-(defn build-gamestate [request]
-  (let [cookies (.getCookies request)
-        computer (ttt-computer/new-computer (get cookies "computer"))
-        computer-piece (get cookies "computer")
-        human    (ttt-human/new-human (get cookies "human") nil)
-        board    (gh/board-string->board (get cookies "board"))]
-    {:board board :players [computer human] :computer computer-piece :options {:difficulty :unbeatable}}))
+(defn current-player [gamestate]
+  (first (:players gamestate)))
+
+(defn computer-turn? [gamestate]
+  (= (str (type (current-player gamestate))) "class ttt_clojure.players.computer.Computer"))
 
 (defn build-response [request response]
-  (let [gamestate (build-gamestate request)]
-    (set-status response 200)
-    (set-body response (build-board-layout (:board gamestate))))
+  (let [gamestate (gh/build-gamestate request)]
+    (if (computer-turn? gamestate)
+      (do
+        (set-status response 301)
+        (add-header response "Location" "/play")
+        (add-cookie response "board"    (gh/board->board-string (:board (move gamestate (find-move gamestate))))))
+      (do
+        (set-status response 200)
+        (set-body   response (build-board-layout (:board gamestate) (gamestate/game-over? gamestate))))))
   response)
 
 (defrecord PlayGameRoute []

@@ -15,16 +15,21 @@
 (defn space-taken? [string]
   (if (re-find #"x|o" string) true false))
 
-(defn buttonify [string]
-  (if (space-taken? string) string
-    [:div {:class "move-form"}
-      (form-to [:post "/move"]
-        (text-field    {:type :hidden} :move string)
-        (submit-button {:class "move"}       string))]))
+(def new-game-button
+  [:a {:href "/"} "New Game"])
 
-(defn build-board-layout [board]
+(defn buttonify [string game-over?]
+  (if (space-taken? string) string
+    (if game-over? string
+      [:div {:class "move-form"}
+        (form-to [:post "/move"]
+          (text-field    {:type :hidden} :move string)
+          (submit-button {:class "move"}       string))])))
+
+(defn build-board-layout [board game-over?]
   (html5
     [:table {:class "board" :border "1" :cellpadding 50}
       (for [row (partitioned-board board)]
         [:tr (for [space row]
-          [:td (buttonify space)])])]))
+          [:td (buttonify space game-over?)])])]
+    new-game-button))
