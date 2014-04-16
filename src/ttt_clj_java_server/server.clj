@@ -5,6 +5,7 @@
             [ttt-clj-java-server.routes.move-game-route :refer [new-move-game-route]]))
 
 (defn build-game-routes []
+  (router/add-route main.Server/ROUTER "GET"  "/"         (new main.routing.routes.RedirectRoute "/play"))
   (router/add-route main.Server/ROUTER "POST" "/new-game" (new-game-route))
   (router/add-route main.Server/ROUTER "GET" "/play"      (new-play-game-route))
   (router/add-route main.Server/ROUTER "POST" "/move"     (new-move-game-route)))
