@@ -8,3 +8,4 @@ pom.xml
 .lein-plugins
 .lein-repl-history
 logs.txt
+.nrepl-port
