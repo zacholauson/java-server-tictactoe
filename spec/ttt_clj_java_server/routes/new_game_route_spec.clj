@@ -3,11 +3,18 @@
             [ttt-clj-java-server.routes.new-game-route :refer :all]
             [ttt-clj-java-server.api.response.response :refer [new-response get-headers]]))
 
-(defn new-mock-request []
-  (new test.mocks.MockRequest "GET" "/"))
+(def mock-request
+  (reify main.requests.IRequest
+    (getParams [this]
+      (java.util.HashMap. {"board-size" "3" "difficulty" "unbeatable" "gametype" "computer-vs-human"}))))
 
 (describe "NewGameRoute"
-  (describe "#board-string"
-    (it "should create a string for the given board"
-      (should= "---------" (board-string [:- :- :- :- :- :- :- :- :-]))
-      (should= "xx-o--o--" (board-string [:x :x :- :o :- :- :o :- :-])))))
+  (describe "#build-response"
+    (it "should return a response with a 301 redirect"
+      (should= (str "HTTP/1.1 301 Moved Permanently\r\n"
+                    "Location: /play\r\n"
+                    "Set-Cookie: computer=x\r\n"
+                    "Set-Cookie: human=o\r\n"
+                    "Set-Cookie: gametype=computer-vs-human\r\n"
+                    "Set-Cookie: difficulty=unbeatable\r\n"
+                    "Set-Cookie: board=---------\r\n\r\n") (-> (build-response mock-request (new-response)) (get-headers))))))

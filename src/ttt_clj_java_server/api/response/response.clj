@@ -6,6 +6,9 @@
 (defn add-cookie [response cookie-key cookie-value]
   (.addCookie response cookie-key cookie-value))
 
+(defn add-cookies [response cookie-map]
+  (doseq [[cookie-key cookie-val] cookie-map] (add-cookie response cookie-key cookie-val)))
+
 (defn add-header [response header-key header-value]
   (.addHeader response header-key header-value))
 

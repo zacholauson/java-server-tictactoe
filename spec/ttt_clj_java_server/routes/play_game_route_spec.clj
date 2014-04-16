@@ -1,5 +1,35 @@
 (ns ttt-clj-java-server.routes.play-game-route-spec
   (:require [speclj.core :refer :all]
-            [ttt-clj-java-server.routes.play-game-route :refer :all]))
+            [ttt-clj-java-server.routes.play-game-route :refer :all]
+            [ttt-clojure.players.computer               :refer [new-computer] :as ttt-computer]
+            [ttt-clojure.players.human                  :refer [new-human]    :as ttt-human]
+            [ttt-clj-java-server.api.response.response  :refer :all           :as response-api]))
 
-(describe "PlayGameRoute")
+(def new-gamestate
+  {:board [:- :- :- :- :- :- :- :- :-]
+   :players [(ttt-computer/new-computer :x) (ttt-human/new-human :o nil)]
+   :options {:difficulty :unbeatable}})
+
+(describe "PlayGameRoute"
+  (describe "#current-player"
+    (it "should return the first player in the player collection from the gamestate"
+      (should= ttt_clojure.players.human.Human (class (current-player {:players [(ttt-human/new-human :x nil) (ttt-computer/new-computer :o)]})))))
+  (describe "#computer-turn?"
+    (it "should return true if the current player is a computer"
+      (should= true (computer-turn? {:players [(ttt-computer/new-computer :o) (ttt-human/new-human :x nil)]})))
+    (it "should return false if the current player is a human"
+      (should= false (computer-turn? {:players [(ttt-human/new-human :x nil) (ttt-computer/new-computer :o)]}))))
+  (describe "#computer-move-response"
+    (it "should return a response with the computer move in it"
+      (should= (str "HTTP/1.1 301 Moved Permanently\r\n"
+                    "Location: /play\r\n"
+                    "Set-Cookie: board=x--------\r\n\r\n")
+               (-> (computer-move-response (response-api/new-response) new-gamestate) (response-api/get-headers)))))
+  (describe "#display-board-response"
+    (it "should return a response with 200 OK response"
+      (should= "HTTP/1.1 200 OK\r\n\r\n"
+               (-> (display-board-response (response-api/new-response) new-gamestate) (response-api/get-headers)))))
+  (describe "#new-game-form-response"
+    (it "should return a response with 200 OK response"
+      (should= "HTTP/1.1 200 OK\r\n\r\n"
+               (-> (new-game-form-response (response-api/new-response)) (response-api/get-headers))))))

@@ -1,11 +1,11 @@
 (ns ttt-clj-java-server.routes.play-game-route
-  (:require [ttt-clj-java-server.gamestate-helpers :refer :all :as gh]
-            [ttt-clojure.players.computer :refer [new-computer] :as ttt-computer]
-            [ttt-clojure.players.human :refer [new-human] :as ttt-human]
-            [ttt-clj-java-server.api.response.response :refer :all]
-            [ttt-clojure.ai :refer [find-move]]
-            [ttt-clojure.gamestate :refer [game-over? move] :as gamestate]
-            [ttt-clj-java-server.board-view-helpers :refer [build-board-layout]]))
+  (:require [ttt-clj-java-server.api.response.response      :refer [set-status add-header add-cookie set-body] :as response-api]
+            [ttt-clojure.players.computer                   :refer [new-computer]                              :as ttt-computer]
+            [ttt-clojure.players.human                      :refer [new-human]                                 :as ttt-human]
+            [ttt-clojure.gamestate                          :refer [game-over? move]                           :as gamestate]
+            [ttt-clojure.ai                                 :refer [find-move]                                 :as ai]
+            [ttt-clj-java-server.helpers.gamestate-helpers  :refer [build-gamestate board->board-string]       :as gamestate-helpers]
+            [ttt-clj-java-server.helpers.board-view-helpers :refer [build-board-layout new-game-page-layout]   :as board-view-helpers]))
 
 (defn current-player [gamestate]
   (first (:players gamestate)))
@@ -13,17 +13,31 @@
 (defn computer-turn? [gamestate]
   (= (str (type (current-player gamestate))) "class ttt_clojure.players.computer.Computer"))
 
-(defn build-response [request response]
-  (let [gamestate (gh/build-gamestate request)]
-    (if (computer-turn? gamestate)
-      (do
-        (set-status response 301)
-        (add-header response "Location" "/play")
-        (add-cookie response "board"    (gh/board->board-string (:board (move gamestate (find-move gamestate))))))
-      (do
-        (set-status response 200)
-        (set-body   response (build-board-layout (:board gamestate) (gamestate/game-over? gamestate))))))
+(defn computer-move-response [response gamestate]
+  (response-api/set-status response 301)
+  (response-api/add-header response "Location" "/play")
+  (response-api/add-cookie response "board" (gamestate-helpers/board->board-string (:board (gamestate/move gamestate (ai/find-move gamestate)))))
   response)
+
+(defn display-board-response [response gamestate]
+  (response-api/set-status response 200)
+  (response-api/set-body   response (board-view-helpers/build-page-layout (:board gamestate) (gamestate/game-over? gamestate)))
+  response)
+
+(defn new-game-form-response [response]
+  (response-api/set-status response 200)
+  (response-api/set-body response (new-game-page-layout))
+  response)
+
+(defn build-response [request response]
+  (let [cookies (.getCookies request)]
+    (if (empty? cookies) (new-game-form-response response)
+      (let [gamestate (gamestate-helpers/build-gamestate cookies)]
+        (if (game-over? gamestate)
+          (display-board-response response gamestate)
+          (if (computer-turn? gamestate)
+            (computer-move-response response gamestate)
+            (display-board-response response gamestate)))))))
 
 (defrecord PlayGameRoute []
   main.routing.routes.IRoute
