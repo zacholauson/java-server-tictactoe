@@ -1,6 +1,6 @@
 (ns ttt-clj-java-server.helpers.board-view-helpers
   (:require [clojure.math.numeric-tower :refer [sqrt] :as math]
-            [hiccup.form                :refer :all]))
+            [hiccup.form                :refer [form-to text-field submit-button]]))
 
 (defn row-size [board]
   (math/sqrt (count board)))
