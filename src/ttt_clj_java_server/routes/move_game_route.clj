@@ -1,5 +1,6 @@
 (ns ttt-clj-java-server.routes.move-game-route
   (:require [ttt-clj-java-server.api.response              :refer [set-status add-header add-cookie]              :as response-api]
+            [ttt-clj-java-server.api.request               :refer [get-params get-cookies]                        :as request-api]
             [ttt-clojure.players.computer                  :refer [new-computer]                                  :as ttt-computer]
             [ttt-clojure.players.human                     :refer [new-human]                                     :as ttt-human]
             [ttt-clojure.gamestate                         :refer [move]                                          :as gamestate]
@@ -9,9 +10,9 @@
   (gamestate-helpers/parse-int (clojure.string/trim (get params "move"))))
 
 (defn build-response [request response]
-  (let [params    (.getParams request)
+  (let [params    (request-api/get-params request)
         move-int  (pull-move-from-params params)
-        gamestate (gamestate/move (gamestate-helpers/build-gamestate (.getCookies request)) move-int)]
+        gamestate (gamestate/move (gamestate-helpers/build-gamestate (request-api/get-cookies request)) move-int)]
     (response-api/set-status response 301)
     (response-api/add-header response "Location" "/play")
     (response-api/add-cookie response "board" (gamestate-helpers/board->board-string (:board gamestate))))
