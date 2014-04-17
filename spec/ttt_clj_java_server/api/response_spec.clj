@@ -1,6 +1,6 @@
-(ns ttt-clj-java-server.api.response.response-spec
+(ns ttt-clj-java-server.api.response-spec
   (:require [speclj.core :refer :all]
-            [ttt-clj-java-server.api.response.response :refer :all]))
+            [ttt-clj-java-server.api.response :refer :all]))
 
 (describe "Response"
   (describe "#new-response"

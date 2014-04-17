@@ -1,4 +1,4 @@
-(ns ttt-clj-java-server.api.request.request)
+(ns ttt-clj-java-server.api.request)
 
 (defn get-cookies [request]
   (.getCookies request))

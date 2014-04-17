@@ -3,7 +3,7 @@
             [ttt-clj-java-server.routes.play-game-route :refer :all]
             [ttt-clojure.players.computer               :refer [new-computer] :as ttt-computer]
             [ttt-clojure.players.human                  :refer [new-human]    :as ttt-human]
-            [ttt-clj-java-server.api.response.response  :refer :all           :as response-api]))
+            [ttt-clj-java-server.api.response           :refer :all           :as response-api]))
 
 (def new-gamestate
   {:board [:- :- :- :- :- :- :- :- :-]

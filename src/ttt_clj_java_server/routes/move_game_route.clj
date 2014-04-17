@@ -1,5 +1,5 @@
 (ns ttt-clj-java-server.routes.move-game-route
-  (:require [ttt-clj-java-server.api.response.response     :refer [set-status add-header add-cookie]              :as response-api]
+  (:require [ttt-clj-java-server.api.response              :refer [set-status add-header add-cookie]              :as response-api]
             [ttt-clojure.players.computer                  :refer [new-computer]                                  :as ttt-computer]
             [ttt-clojure.players.human                     :refer [new-human]                                     :as ttt-human]
             [ttt-clojure.gamestate                         :refer [move]                                          :as gamestate]

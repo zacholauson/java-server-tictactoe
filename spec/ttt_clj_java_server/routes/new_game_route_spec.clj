@@ -1,7 +1,7 @@
 (ns ttt-clj-java-server.routes.new-game-route-spec
-  (:require [speclj.core :refer :all]
+  (:require [speclj.core                               :refer :all]
             [ttt-clj-java-server.routes.new-game-route :refer :all]
-            [ttt-clj-java-server.api.response.response :refer [new-response get-headers]]))
+            [ttt-clj-java-server.api.response          :refer [new-response get-headers]]))
 
 (def mock-request
   (reify main.requests.IRequest

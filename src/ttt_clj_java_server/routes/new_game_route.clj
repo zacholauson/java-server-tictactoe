@@ -1,6 +1,6 @@
 (ns ttt-clj-java-server.routes.new-game-route
-  (:require [ttt-clj-java-server.api.response.response     :refer [set-status add-header add-cookies] :as response-api]
-            [ttt-clj-java-server.api.request.request       :refer [get-params]                        :as request-api]
+  (:require [ttt-clj-java-server.api.response              :refer [set-status add-header add-cookies] :as response-api]
+            [ttt-clj-java-server.api.request               :refer [get-params]                        :as request-api]
             [ttt-clj-java-server.helpers.gamestate-helpers :refer [board->board-string parse-int]     :as gamestate-helper]
             [ttt-clojure.gamestate                         :refer [create-board]                      :as gamestate]))
 

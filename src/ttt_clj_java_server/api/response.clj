@@ -1,4 +1,4 @@
-(ns ttt-clj-java-server.api.response.response)
+(ns ttt-clj-java-server.api.response)
 
 (defn set-status [response status-code]
   (.setStatus response status-code))

@@ -1,6 +1,6 @@
-(ns ttt-clj-java-server.api.routing.router-spec
+(ns ttt-clj-java-server.api.router-spec
   (:require [speclj.core :refer :all]
-            [ttt-clj-java-server.api.routing.router :refer :all]))
+            [ttt-clj-java-server.api.router :refer :all]))
 
 (describe "Router"
   (describe "#add-route"

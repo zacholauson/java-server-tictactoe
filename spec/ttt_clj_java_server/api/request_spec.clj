@@ -1,6 +1,6 @@
-(ns ttt-clj-java-server.api.request.request-spec
+(ns ttt-clj-java-server.api.request-spec
   (:require [speclj.core :refer :all]
-            [ttt-clj-java-server.api.request.request :refer :all]))
+            [ttt-clj-java-server.api.request :refer :all]))
 
 (def mock-request
   (reify main.requests.IRequest
