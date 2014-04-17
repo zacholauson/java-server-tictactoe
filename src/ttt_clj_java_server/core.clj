@@ -11,8 +11,8 @@
   (server/init (cli/port) "/")
   (router/add-routes
     server/router
-    {["GET"  "/"]         (new main.routing.routes.RedirectRoute "/play")
-     ["POST" "/new-game"] (new-game-route)
-     ["GET"  "/play"]     (new-play-game-route)
-     ["POST" "/move"]     (new-move-game-route)})
+    {{"GET"  "/"}         (new main.routing.routes.RedirectRoute "/play")
+     {"POST" "/new-game"} (new-game-route)
+     {"GET"  "/play"}     (new-play-game-route)
+     {"POST" "/move"}     (new-move-game-route)})
   (server/start))
