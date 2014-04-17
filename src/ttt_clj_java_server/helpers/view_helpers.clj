@@ -1,6 +1,10 @@
-(ns ttt-clj-java-server.helpers.board-view-helpers
+(ns ttt-clj-java-server.helpers.view-helpers
   (:require [clojure.math.numeric-tower :refer [sqrt] :as math]
-            [hiccup.form                :refer [form-to text-field submit-button]]))
+            [hiccup.core                :refer :all]
+            [hiccup.page                :refer :all]
+            [hiccup.form                :refer :all]))
+
+(def ^{:dynamic true} *view-context* {})
 
 (defn row-size [board]
   (math/sqrt (count board)))

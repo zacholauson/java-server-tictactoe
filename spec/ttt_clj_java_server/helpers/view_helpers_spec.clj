@@ -1,8 +1,8 @@
-(ns ttt-clj-java-server.helpers.board-view-helpers-spec
+(ns ttt-clj-java-server.helpers.view-helpers-spec
   (:require [speclj.core :refer :all]
-            [ttt-clj-java-server.helpers.board-view-helpers :refer :all]))
+            [ttt-clj-java-server.helpers.view-helpers :refer :all]))
 
-(describe "BoardViewHelpers"
+(describe "ViewHelpers"
   (describe "#row-size"
     (it "should return the correct row size for the given board"
       (should= 3 (row-size [:- :- :- :- :- :- :- :- :-]))
