@@ -35,10 +35,20 @@
     (it "should return :o if there is an lesser or equal number of :x's than :o's"
       (should= :x (turn (board-string->board "xoxo-----")))))
 
-  (describe "#computers-turn?"
+  (describe "#players-turn?"
     (it "should return true if its the computers turn based on the gamestate"
-      (should= true (computers-turn? (board-string->board "xoxo-----") :x))
-      (should= true (computers-turn? (board-string->board "xoxox----") :o))))
+      (should= true (players-turn? (board-string->board "xoxo-----") :x))
+      (should= true (players-turn? (board-string->board "xoxox----") :o))))
+
+  (describe "#current-player"
+    (it "should return the first player in the player collection from the gamestate"
+      (should= ttt_clojure.players.human.Human (class (current-player {:players [(ttt-human/new-human :x nil) (ttt-computer/new-computer :o)]})))))
+
+  (describe "#computer-turn?"
+    (it "should return true if the current player is a computer"
+      (should= true (computers-turn? {:players [(ttt-computer/new-computer :o) (ttt-human/new-human :x nil)]})))
+    (it "should return false if the current player is a human"
+      (should= false (computers-turn? {:players [(ttt-human/new-human :x nil) (ttt-computer/new-computer :o)]}))))
 
   (describe "#board->board-string"
     (it "should convert a board to a board string"

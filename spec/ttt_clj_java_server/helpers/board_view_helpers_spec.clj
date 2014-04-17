@@ -8,10 +8,11 @@
       (should= 3 (row-size [:- :- :- :- :- :- :- :- :-]))
       (should= 4 (row-size [:- :- :- :- :- :- :- :- :- :- :- :- :- :- :- :-]))
       (should= 5 (row-size [:- :- :- :- :- :- :- :- :- :- :- :- :- :- :- :- :- :- :- :- :- :- :- :- :-]))))
+
   (describe "#index-board"
     (it "should return an indexed and formatted board"
       (should= [" 0" " 1" " 2" " 3" " 4" " 5" " 6" " 7" " 8"] (index-board [:- :- :- :- :- :- :- :- :-]))))
+
   (describe "#partitioned-board"
     (it "should partition and index the board"
-      (should= [[" 0" " 1" " 2"] [" 3" " 4" " 5"] [" 6" " 7" " 8"]] (partitioned-board [:- :- :- :- :- :- :- :- :-]))))
-  (it "should I test hiccup compilation?"))
+      (should= [[" 0" " 1" " 2"] [" 3" " 4" " 5"] [" 6" " 7" " 8"]] (partitioned-board [:- :- :- :- :- :- :- :- :-])))))

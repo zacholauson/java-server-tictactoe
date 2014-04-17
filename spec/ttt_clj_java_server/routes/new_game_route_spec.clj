@@ -10,7 +10,7 @@
 
 (describe "NewGameRoute"
   (describe "#build-response"
-    (it "should return a response with a 301 redirect"
+    (it "should return a response with a 301 redirect to /play with the proper cookies"
       (should= (str "HTTP/1.1 301 Moved Permanently\r\n"
                     "Location: /play\r\n"
                     "Set-Cookie: computer=x\r\n"

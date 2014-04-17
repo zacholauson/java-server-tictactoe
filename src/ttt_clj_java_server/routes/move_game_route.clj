@@ -1,18 +1,12 @@
 (ns ttt-clj-java-server.routes.move-game-route
-  (:require [ttt-clj-java-server.api.response.response     :refer [set-status add-header add-cookie]    :as response-api]
-            [ttt-clojure.players.computer                  :refer [new-computer]                        :as ttt-computer]
-            [ttt-clojure.players.human                     :refer [new-human]                           :as ttt-human]
-            [ttt-clojure.gamestate                         :refer [move]                                :as gamestate]
-            [ttt-clj-java-server.helpers.gamestate-helpers :refer [build-gamestate board->board-string] :as gamestate-helpers]))
-
-(defn parse-int [string]
-  (cond
-    (string? string) (Integer. (re-find  #"\d+" string ))
-    (integer? string) string
-    :else (throw (Exception. "cannot convert given argument to integer"))))
+  (:require [ttt-clj-java-server.api.response.response     :refer [set-status add-header add-cookie]              :as response-api]
+            [ttt-clojure.players.computer                  :refer [new-computer]                                  :as ttt-computer]
+            [ttt-clojure.players.human                     :refer [new-human]                                     :as ttt-human]
+            [ttt-clojure.gamestate                         :refer [move]                                          :as gamestate]
+            [ttt-clj-java-server.helpers.gamestate-helpers :refer [build-gamestate board->board-string parse-int] :as gamestate-helpers]))
 
 (defn pull-move-from-params [params]
-  (parse-int (clojure.string/trim (get params "move"))))
+  (gamestate-helpers/parse-int (clojure.string/trim (get params "move"))))
 
 (defn build-response [request response]
   (let [params    (.getParams request)

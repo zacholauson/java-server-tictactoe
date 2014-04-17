@@ -18,6 +18,7 @@
   (describe "#pull-move-from-params"
     (it "should pull the move from the given params"
       (should= 1 (pull-move-from-params {"move" "1"}))))
+
   (describe "#build-response"
     (it "should return a response redirecting to play with the board updated with the posted move"
       (should= (str "HTTP/1.1 301 Moved Permanently\r\n"

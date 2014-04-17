@@ -8,6 +8,7 @@
       (let [router (new-router)]
         (add-route router "GET" "/" (new main.routing.routes.TextRoute "Text Route"))
         (should= 1 (count (routes router))))))
+
   (describe "#routes"
     (it "should return a map of all the routes for the given router"
       (let [router (new-router)]

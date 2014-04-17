@@ -13,6 +13,7 @@
   (describe "#get-cookies"
     (it "should return a map of the cookies from the request"
       (should= {"board" "---------"} (get-cookies mock-request))))
+
   (describe "#get-params"
     (it "should return a map of the params from the request"
       (should= {"move" "1"} (get-params mock-request)))))

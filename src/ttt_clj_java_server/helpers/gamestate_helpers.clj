@@ -24,8 +24,14 @@
     (xs-turn? board) :x
     (os-turn? board) :o))
 
-(defn computers-turn? [board computers-piece]
-  (= computers-piece (turn board)))
+(defn players-turn? [board players-piece]
+  (= players-piece (turn board)))
+
+(defn current-player [gamestate]
+  (first (:players gamestate)))
+
+(defn computers-turn? [gamestate]
+  (= (str (type (current-player gamestate))) "class ttt_clojure.players.computer.Computer"))
 
 (defn board->board-string [board]
   (->> board
@@ -47,7 +53,7 @@
         board               (board-string->board (get cookies "board"))
         difficulty-setting  (keyword (get cookies "difficulty"))]
     {:board board
-     :players (if (computers-turn? board :x) [computer human] [human computer])
+     :players (if (players-turn? board :x) [computer human] [human computer])
      :computer :x
      :options {:difficulty difficulty-setting}}))
 
@@ -58,7 +64,7 @@
         board               (board-string->board (get cookies "board"))
         difficulty-setting (keyword (get cookies "difficulty"))]
     {:board board
-     :players (if (computers-turn? board :o) [computer human] [human computer])
+     :players (if (players-turn? board :o) [computer human] [human computer])
      :computer :o
      :options {:difficulty difficulty-setting}}))
 
@@ -69,7 +75,7 @@
         board               (board-string->board (get cookies "board"))
         difficulty-setting (keyword (get cookies "difficulty"))]
     {:board board
-     :players (if (computers-turn? board :x) [computer computer2] [computer2 computer])
+     :players (if (players-turn? board :x) [computer computer2] [computer2 computer])
      :computer :x
      :options {:difficulty difficulty-setting}}))
 
@@ -79,5 +85,5 @@
         players             [human human2]
         board               (board-string->board (get cookies "board"))]
     {:board board
-     :players (if (computers-turn? board :x) [human human2] [human2 human])
+     :players (if (players-turn? board :x) [human human2] [human2 human])
      :options {:difficulty :easy}}))
