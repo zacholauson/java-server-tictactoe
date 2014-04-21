@@ -12,10 +12,10 @@
 (defn build-response [request response]
   (let [params    (request-api/get-params request)
         move-int  (pull-move-from-params params)
-        gamestate (gamestate/move (gamestate-helpers/build-gamestate (request-api/get-cookies request)) move-int)]
-    (response-api/set-status response 301)
-    (response-api/add-header response "Location" "/play")
-    (response-api/add-cookie response "board" (gamestate-helpers/board->board-string (:board gamestate))))
+        pre-move-gamestate (gamestate-helpers/build-gamestate (request-api/get-cookies request))
+        post-move-gamestate (gamestate/move pre-move-gamestate move-int)]
+    (response-api/set-redirect response "/play")
+    (response-api/add-cookie   response "board" (gamestate-helpers/board->board-string (:board post-move-gamestate))))
     response)
 
 (defrecord MoveGameRoute []

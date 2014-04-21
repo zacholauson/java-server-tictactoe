@@ -9,16 +9,18 @@
             [ttt-clojure.gamestate                          :refer [game-over? move]                                     :as gamestate]
             [ttt-clojure.ai                                 :refer [find-move]                                           :as ai]))
 
+(defn build-view-context [gamestate]
+  {:board      (:board gamestate)
+   :game-over? (gamestate/game-over? gamestate)})
+
 (defn computer-move-response [response gamestate]
-  (response-api/set-status response 301)
-  (response-api/add-header response "Location" "/play")
-  (response-api/add-cookie response "board" (gamestate-helpers/board->board-string (:board (gamestate/move gamestate (ai/find-move gamestate)))))
+  (response-api/set-redirect response "/play")
+  (response-api/add-cookie   response "board" (gamestate-helpers/board->board-string (:board (gamestate/move gamestate (ai/find-move gamestate)))))
   response)
 
 (defn display-board-response [response gamestate]
   (response-api/set-status response 200)
-  (response-api/set-body response (render "play" (merge *view-context* {:board       (:board gamestate)
-                                                                         :game-over? (gamestate/game-over? gamestate)})))
+  (response-api/set-body   response (render "play" (merge *view-context* (build-view-context gamestate))))
   response)
 
 (defn new-game-form-response [response]

@@ -9,8 +9,8 @@
 
 (def opts (atom {}))
 
-(defn wrap-cli [args]
-  (swap! opts conj (:options (parse-opts args cli-options))))
-
 (defn port []
   (:port @opts))
+
+(defn wrap-cli [args]
+  (swap! opts conj (:options (parse-opts args cli-options))))

@@ -9,9 +9,8 @@
         gametype     (get params "gametype")
         difficulty   (get params "difficulty")
         board-size   (-> (get params "board-size") (gamestate-helper/parse-int))]
-    (response-api/set-status  response 301)
-    (response-api/add-header  response "Location" "/play")
-    (response-api/add-cookies response
+    (response-api/set-redirect response "/play")
+    (response-api/add-cookies  response
       {"computer"   "x"
        "human"      "o"
        "gametype"   gametype

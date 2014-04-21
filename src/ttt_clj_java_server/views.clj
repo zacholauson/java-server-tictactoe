@@ -5,11 +5,11 @@
 (def helper-namespace 'ttt-clj-java-server.helpers.view-helpers)
 (def view-extension ".hiccup")
 
-(defn load-view [view-name]
-  (slurp (str views-directory view-name view-extension)))
+(defn load-view [template-name]
+  (slurp (str views-directory template-name view-extension)))
 
-(defn read-view [view-name]
-  (read-string (load-view view-name)))
+(defn read-view [template-name]
+  (read-string (load-view template-name)))
 
 (defn eval-content
   ([hiccup-src]

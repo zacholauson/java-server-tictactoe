@@ -42,7 +42,8 @@
 
   (describe "#current-player"
     (it "should return the first player in the player collection from the gamestate"
-      (should= ttt_clojure.players.human.Human (class (current-player {:players [(ttt-human/new-human :x nil) (ttt-computer/new-computer :o)]})))))
+      (should= ttt_clojure.players.human.Human
+               (class (current-player {:players [(ttt-human/new-human :x nil) (ttt-computer/new-computer :o)]})))))
 
   (describe "#computer-turn?"
     (it "should return true if the current player is a computer"
@@ -65,7 +66,7 @@
       (it "should build a gamestate based on the given cookies"
         (let [cookies {"board" "---------" "gametype" "computer-vs-human" "difficulty" "unbeatable"}]
           (should= [:- :- :- :- :- :- :- :- :-]          (-> (build-gamestate cookies) :board))
-          (should= ttt_clojure.players.computer.Computer (-> (build-gamestate cookies) :players first class))
+          (should= ttt_clojure.players.computer.Computer (-> (build-gamestate cookies) :players first  class))
           (should= ttt_clojure.players.human.Human       (-> (build-gamestate cookies) :players second class))
           (should= :x                                    (-> (build-gamestate cookies) :computer))
           (should= :unbeatable                           (-> (build-gamestate cookies) :options :difficulty)))))
@@ -73,7 +74,7 @@
       (it "should build a gamestate based on the given cookies"
         (let [cookies {"board" "---------" "gametype" "human-vs-computer" "difficulty" "unbeatable"}]
           (should= [:- :- :- :- :- :- :- :- :-]          (-> (build-gamestate cookies) :board))
-          (should= ttt_clojure.players.human.Human       (-> (build-gamestate cookies) :players first class))
+          (should= ttt_clojure.players.human.Human       (-> (build-gamestate cookies) :players first  class))
           (should= ttt_clojure.players.computer.Computer (-> (build-gamestate cookies) :players second class))
           (should= :o                                    (-> (build-gamestate cookies) :computer))
           (should= :unbeatable                           (-> (build-gamestate cookies) :options :difficulty)))))
@@ -81,14 +82,13 @@
       (it "should build a gamestate based on the given cookies"
         (let [cookies {"board" "---------" "gametype" "computer-vs-computer" "difficulty" "unbeatable"}]
           (should= [:- :- :- :- :- :- :- :- :-]          (-> (build-gamestate cookies) :board))
-          (should= ttt_clojure.players.computer.Computer (-> (build-gamestate cookies) :players first class))
+          (should= ttt_clojure.players.computer.Computer (-> (build-gamestate cookies) :players first  class))
           (should= ttt_clojure.players.computer.Computer (-> (build-gamestate cookies) :players second class))
           (should= :unbeatable                           (-> (build-gamestate cookies) :options :difficulty)))))
     (context "human-vs-human"
       (it "should build a gamestate based on the given cookies"
         (let [cookies {"board" "---------" "gametype" "human-vs-human" "difficulty" "unbeatable"}]
           (should= [:- :- :- :- :- :- :- :- :-]          (-> (build-gamestate cookies) :board))
-          (should= ttt_clojure.players.human.Human       (-> (build-gamestate cookies) :players first class))
+          (should= ttt_clojure.players.human.Human       (-> (build-gamestate cookies) :players first  class))
           (should= ttt_clojure.players.human.Human       (-> (build-gamestate cookies) :players second class))
           (should= :easy                                 (-> (build-gamestate cookies) :options :difficulty)))))))
-

@@ -11,6 +11,11 @@
    :options {:difficulty :unbeatable}})
 
 (describe "PlayGameRoute"
+  (describe "#build-view-context"
+    (it "should return a map with the info needed for the board to be rendered"
+      (should= {:board [:- :- :- :- :- :- :- :- :-]
+                :game-over? false} (build-view-context new-gamestate))))
+
   (describe "#computer-move-response"
     (it "should return a response with the computer move in it"
       (should= (str "HTTP/1.1 301 Moved Permanently\r\n"
