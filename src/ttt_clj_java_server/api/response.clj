@@ -27,5 +27,9 @@
 (defn get-body-content [response]
   (String. (.getBody response)))
 
+(defn set-redirect [response location]
+  (set-status response 301)
+  (add-header response "Location" location))
+
 (defn new-response []
   (new main.response.responses.Response))

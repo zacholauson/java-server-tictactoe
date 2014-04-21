@@ -20,6 +20,14 @@
           (add-cookie response "Test" "Cookie")
           (should= "Set-Cookie: Test=Cookie\r\n\r\n" (get-headers response)))))
 
+    (describe "#add-cookies"
+      (it "should add multiple cookies at once"
+        (let [response (new-response)]
+          (add-cookies response {"Test1" "Cookie1" "Test2" "Cookie2" "Test3" "Cookie3"})
+          (should= (str "Set-Cookie: Test2=Cookie2\r\n"
+                        "Set-Cookie: Test3=Cookie3\r\n"
+                        "Set-Cookie: Test1=Cookie1\r\n\r\n") (get-headers response)))))
+
     (describe "#add-header"
       (it "should add a header to the response"
         (let [response (new-response)]
@@ -49,4 +57,11 @@
       (it "should return the actual contents of the body byte array"
         (let [response (new-response)]
           (set-body response "Test Body")
-          (should= "Test Body" (get-body-content response)))))))
+          (should= "Test Body" (get-body-content response)))))
+
+    (describe "#set-redirect"
+      (it "should take a response and set attributes needed for redirect"
+        (let [response (new-response)]
+          (set-redirect response "/play")
+          (should= (str "HTTP/1.1 301 Moved Permanently\r\n"
+                        "Location: /play\r\n\r\n") (get-headers response)))))))
